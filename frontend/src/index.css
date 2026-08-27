@@ -43,14 +43,41 @@ body {
   padding: 2rem 1.25rem;
 }
 
-.app {
+.layout {
   width: 100%;
-  max-width: 420px;
+  max-width: 1160px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.app {
+  flex: 0 0 420px;
+  max-width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 2rem 1.75rem;
+}
+
+.chart-card {
+  flex: 1 1 640px;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 1.75rem;
+  text-align: left;
+}
+
+.chart-card__chart {
+  width: 100%;
+  --ts-chart-crosshair-label-halo: var(--surface);
+  --ts-chart-tooltip-font: 0.85rem var(--sans);
+  --ts-chart-tooltip-border-radius: 10px;
 }
 
 .app__header {
@@ -161,6 +188,26 @@ body {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   color: var(--text);
+}
+
+@media (max-width: 860px) {
+  #root {
+    align-items: flex-start;
+  }
+
+  .layout {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 460px;
+  }
+
+  .app {
+    flex: initial;
+  }
+
+  .chart-card {
+    flex: initial;
+  }
 }
 
 @media (max-width: 480px) {

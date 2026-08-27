@@ -38,7 +38,7 @@ def yearly_history(monthly: list[dict[str, float]]) -> list[dict[str, float]]:
     return monthly[::12]
 
 
-def calculate_future_value(rj: float, SK: float, EM: float, n: int) -> dict[str, float]:
+def calculate_future_value(rj: float, SK: float, EM: float, n: int) -> dict:
     history = build_monthly_history(rj, SK, EM, n)
     rm = monthly_rate(rj)
 
@@ -50,6 +50,7 @@ def calculate_future_value(rj: float, SK: float, EM: float, n: int) -> dict[str,
         "future_value_start": FVstart,
         "future_value_payments": total_future_value - FVstart,
         "total_future_value": total_future_value,
+        "history": history,
     }
 
 
