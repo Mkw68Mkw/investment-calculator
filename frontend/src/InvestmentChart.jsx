@@ -8,6 +8,7 @@ import { Chart } from '@tanstack/charts/react'
 
 const PORTFOLIO_VALUE = 'Portfolio Value'
 const INVESTED_CAPITAL = 'Invested Capital'
+const RENDITE = 'Rendite'
 
 const chfCompact = new Intl.NumberFormat('de-CH', {
   style: 'currency',
@@ -31,6 +32,7 @@ function cssVar(name, fallback) {
 }
 
 const monthToYear = (month) => Math.round(month / 12)
+const rendite = (row) => row.value - row.invested
 
 function yearTickValues(maxMonth) {
   const years = Math.round(maxMonth / 12)
@@ -46,6 +48,7 @@ function InvestmentChart({ data }) {
   const definition = useMemo(() => {
     const valueColor = cssVar('--accent', '#2f6fed')
     const investedColor = cssVar('--text-muted', '#5c6b7a')
+    const renditeColor = cssVar('--gain', '#f59e0b')
     const lastMonth = data.length > 0 ? data[data.length - 1].month : 0
 
     return defineChart({
@@ -110,19 +113,39 @@ function InvestmentChart({ data }) {
       tooltip: {
         use: tooltip,
         sort: 'color-domain',
-        anchor: 'group-center',
-        placement: ['top', 'right', 'left', 'bottom'],
-        items: [
-          {
-            channel: 'x',
-            text: (point) => `Jahr ${monthToYear(point.xValue)}`,
-          },
-          {
-            channel: 'y',
-            text: (point) => chfFull.format(point.yValue),
-          },
-          'group',
-        ],
+        // Place the box in the emptier vertical half: if the focused point
+        // sits low, anchor at the top edge; if it sits high, anchor at the
+        // bottom edge. The placement fallback then flips into the free space.
+        anchor: (points, { focus, plot }) => {
+          const point = focus.primary ?? points[0]
+          if (!point) return null
+          const midY = plot.y + plot.height / 2
+          const y = point.y > midY ? plot.y : plot.y + plot.height
+          return { x: point.x, y }
+        },
+        placement: ['top', 'bottom'],
+        offset: 12,
+        content: (points) => {
+          const first = points[0]
+          const rows = points.map((point) => ({
+            label: point.groupLabel,
+            value: chfFull.format(point.yValue),
+            color: point.color,
+          }))
+
+          if (first) {
+            rows.push({
+              label: RENDITE,
+              value: chfFull.format(rendite(first.datum)),
+              color: renditeColor,
+            })
+          }
+
+          return {
+            title: `Jahr ${monthToYear(first?.xValue ?? 0)}`,
+            rows,
+          }
+        },
       },
     })
   }, [data])

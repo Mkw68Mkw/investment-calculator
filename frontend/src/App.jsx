@@ -108,6 +108,17 @@ function App() {
                 currency: 'CHF',
               })}
             </strong>
+
+            <span className="result__gain">
+              Rendite:{' '}
+              {(
+                result.total_future_value -
+                (result.history?.[result.history.length - 1]?.invested ?? 0)
+              ).toLocaleString('de-CH', {
+                style: 'currency',
+                currency: 'CHF',
+              })}
+            </span>
           </section>
         )}
       </main>

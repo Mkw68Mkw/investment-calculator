@@ -8,6 +8,7 @@
   --border-focus: #2f6fed;
   --accent: #2f6fed;
   --accent-hover: #2458c4;
+  --gain: #f59e0b;
   --result-bg: #e8f0fe;
   --shadow: 0 12px 40px rgba(26, 35, 50, 0.08);
   --radius: 14px;
@@ -188,6 +189,14 @@ body {
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   color: var(--text);
+}
+
+.result__gain {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--gain);
 }
 
 @media (max-width: 860px) {
