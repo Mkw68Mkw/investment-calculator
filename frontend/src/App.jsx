@@ -46,7 +46,7 @@ function App() {
             <span className="field__label">Jährliche Rendite (%)</span>
             <input
               type="number"
-              step="0.1"
+              step="any"
               placeholder="z. B. 8"
               value={rj}
               onChange={(e) => setRj(e.target.value)}
@@ -58,7 +58,7 @@ function App() {
             <span className="field__label">Startkapital (CHF)</span>
             <input
               type="number"
-              step="100"
+              step="any"
               min="0"
               placeholder="z. B. 40000"
               value={SK}
@@ -71,7 +71,7 @@ function App() {
             <span className="field__label">Monatliche Einzahlung (CHF)</span>
             <input
               type="number"
-              step="50"
+              step="any"
               min="0"
               placeholder="z. B. 1000"
               value={EM}
